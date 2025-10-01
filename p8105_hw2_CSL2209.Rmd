@@ -1,0 +1,11 @@
+---
+title: "p8105_hw2_CSL2209"
+author: "Casandra Laney"
+date: "2025-10-01"
+output: github_document
+---
+
+```{r}
+library(tidyverse)
+```
+
