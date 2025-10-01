@@ -24,18 +24,18 @@ pols_month_df = read.csv("data/pols-month.csv") |>
     month =
       case_match(
         month,
-        "01" ~ "January",
-        "02" ~ "February",
-        "03" ~ "March",
-        "04" ~ "April",
-        "05" ~ "May",
-        "06" ~ "June",
-        "07" ~ "July",
-        "08" ~ "August",
-        "09" ~ "September",
-        "10" ~ "October",
-        "11" ~ "November",
-        "12" ~ "December"),
+        "01" ~ "jan",
+        "02" ~ "feb",
+        "03" ~ "mar",
+        "04" ~ "apr",
+        "05" ~ "may",
+        "06" ~ "jun",
+        "07" ~ "jul",
+        "08" ~ "aug",
+        "09" ~ "sept",
+        "10" ~ "oct",
+        "11" ~ "nov",
+        "12" ~ "dec"),
     month = as.factor(month),
     president = 
       case_match (
@@ -55,24 +55,34 @@ snp_df = read.csv("data/snp.csv") |>
     month =
       case_match(
         month,
-        "1" ~ "January",
-        "2" ~ "February",
-        "3" ~ "March",
-        "4" ~ "April",
-        "5" ~ "May",
-        "6" ~ "June",
-        "7" ~ "July",
-        "8" ~ "August",
-        "9" ~ "September",
-        "10" ~ "October",
-        "11" ~ "November",
-        "12" ~ "December"),
+        "1" ~ "jan",
+        "2" ~ "feb",
+        "3" ~ "mar",
+        "4" ~ "apr",
+        "5" ~ "may",
+        "6" ~ "jun",
+        "7" ~ "jul",
+        "8" ~ "aug",
+        "9" ~ "sept",
+        "10" ~ "oct",
+        "11" ~ "nov",
+        "12" ~ "dec"),
     month = as.factor(month)
   ) |>
   select(year, month, close, -day) 
 ```
 
-tidy the unemployment data so that it can be merged with the previous datasets.
+tidy the unemployment data 
+
+```{r}
+unemployment_df = read.csv("data/unemployment.csv") |>
+  janitor::clean_names() |>
+  pivot_longer(
+    jan:dec,
+    names_to = "month",
+    values_to = "unemployment"
+  )
+```
 
 Join the datasets
 
