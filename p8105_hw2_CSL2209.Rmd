@@ -102,4 +102,48 @@ About these datasets
 
 ## Problem 2
 
+Read and clean the Mr. Trash, Professor, and Gwynnda sheets
+
+```{r}
+mr_trash_wheel = 
+  read_excel("data/202509 Trash Wheel Collection Data.xlsx", sheet = "Mr. Trash Wheel", skip = 1) |>
+  janitor::clean_names() |>
+  select(-x15, -x16) |>
+  drop_na(dumpster) |>
+  mutate(
+    month = as.factor(month),
+    year = as.integer(year),
+    sports_balls = as.integer(sports_balls),
+    wheel = "mr_trash") 
+
+professor_trash_wheel = 
+  read_excel("data/202509 Trash Wheel Collection Data.xlsx", sheet = "Professor Trash Wheel", skip = 1) |>
+  janitor::clean_names() |>
+  drop_na(dumpster) |>
+  mutate(
+    month = as.factor(month),
+    year = as.integer(year),
+    wheel = "professor"
+  )
+  
+gwynnda = 
+  read_excel("data/202509 Trash Wheel Collection Data.xlsx", sheet = "Gwynns Falls Trash Wheel", skip = 1) |>
+  janitor::clean_names() |>
+  drop_na(dumpster) |>
+  mutate(
+    month = as.factor(month),
+    year = as.integer(year),
+    wheel = "gwynnda"
+  )
+
+```
+
+Combine the three datasets into one
+
+```{r}
+tidy_wheels = 
+  bind_rows(mr_trash_wheel, professor_trash_wheel, gwynnda) |>
+  janitor::clean_names()
+```
+
 ## Problem 3
