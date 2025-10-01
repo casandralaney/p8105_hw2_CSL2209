@@ -7,6 +7,7 @@ output: github_document
 
 ```{r}
 library(tidyverse)
+library(readxl)
 library(haven)
 ```
 
@@ -35,10 +36,41 @@ pols_month_df = read.csv("data/pols-month.csv") |>
         "10" ~ "October",
         "11" ~ "November",
         "12" ~ "December"),
-    month = as.factor(month))
+    month = as.factor(month),
+    president = 
+      case_match (
+        prez_gop,
+        1 ~ "gop",
+        0 ~ "dem")) |>
+  select(-day, -prez_dem, -prez_gop)
 ```
 
 clean the data in snp.csv
+
+```{r}
+snp_df = read.csv("data/snp.csv") |>
+  janitor::clean_names() |>
+  separate(date, into = c("month", "day", "year"), sep = '/') |>
+  mutate(
+    month =
+      case_match(
+        month,
+        "1" ~ "January",
+        "2" ~ "February",
+        "3" ~ "March",
+        "4" ~ "April",
+        "5" ~ "May",
+        "6" ~ "June",
+        "7" ~ "July",
+        "8" ~ "August",
+        "9" ~ "September",
+        "10" ~ "October",
+        "11" ~ "November",
+        "12" ~ "December"),
+    month = as.factor(month)
+  ) |>
+  select(year, month, close, -day) 
+```
 
 tidy the unemployment data so that it can be merged with the previous datasets.
 
