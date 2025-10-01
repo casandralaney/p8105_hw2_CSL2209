@@ -9,3 +9,19 @@ output: github_document
 library(tidyverse)
 ```
 
+
+## Problem 1
+clean the data in pols-month.csv
+
+clean the data in snp.csv
+
+tidy the unemployment data so that it can be merged with the previous datasets.
+
+Join the datasets
+
+About these datasets
+
+
+## Problem 2
+
+## Problem 3
