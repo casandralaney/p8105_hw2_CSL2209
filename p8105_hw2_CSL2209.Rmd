@@ -221,4 +221,38 @@ Some important variables include:
 
 - zori: the ZORI of area of focus.
 
-The tidy_zillow dataset consists of 5684 observations and 10 variables. There are a total of 48 unique ZIP codes and 19 unique neighborhoods. 
+The tidy_zillow dataset consists of 5684 observations and 10 variables. There are a total of 48 unique ZIP codes and 19 unique neighborhoods.
+
+
+Which ZIP codes appear in the ZIP code dataset but not in the Zillow Rental Price dataset?
+
+```{r}
+missing_zips =
+  zip_codes |>
+  filter(!zip_code %in% zori$zip_code) 
+
+missing_zips
+
+skimr::skim(missing_zips)
+```
+
+There are many zip codes not included in the ZORI data set as shown by the table `missing zips'
+Make a table that shows the 10 ZIP codes (along with the borough and neighborhood) with largest drop in price from January 2020 to 2021.
+
+```{r}
+price_drop =
+  tidy_zillow |>
+  filter(date %in% c("2020_01_31", "2021_01_31")) |>
+  pivot_wider(
+    names_from = date,
+    values_from = zori
+  ) |>
+  mutate(
+    price_change = `2021_01_31` - `2020_01_31`) |>
+  arrange(price_change) |>
+  head(10) |>
+  select(zip_code, county, neighborhood, price_change)
+
+```
+
+The price change was calculated by subtracting the 2020 ZORIs from the 2021 ZORIs. This means that the largest negative values would indicate the greatest price drop. In this case, 10001 had the greatest price drop.
