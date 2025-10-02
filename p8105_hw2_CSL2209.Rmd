@@ -233,10 +233,12 @@ missing_zips =
 
 missing_zips
 
-skimr::skim(missing_zips)
+
 ```
 
-There are many zip codes not included in the ZORI data set as shown by the table `missing zips'
+There are many zip codes not included in the ZORI data set as shown by the table `missing zips'. Some of these ZIp codes might be exlcuded from the Zillow dataset due to lack of rental activity. Zillow only has data on listings that were/are active on that platform. Areas such as the Rockaways or zip codes excluded in the Bronx may have little to no online rental activity, meaning it would be excluded from Zillow's profile. 
+
+
 Make a table that shows the 10 ZIP codes (along with the borough and neighborhood) with largest drop in price from January 2020 to 2021.
 
 ```{r}
