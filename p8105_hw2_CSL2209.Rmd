@@ -99,6 +99,17 @@ five_thirty_eight = left_join(pols_snp, unemployment_df, by = c("year", "month")
 
 About these datasets
 
+The dataset 'five_thirty_eight' consists of pols_month_df, snp_df, and unemployment_df. Pols_df contains information related to the number of national politicians who are democratic or republican. snp_df contains information related to Standard and Poor's stock market index. unemployment_df contains the percentage of unemployment in the respective year and month.The 'five_thirty_eight'dataset consists of 822 observations and 11 variables. Some important variables include:
+
+- year: year of count
+
+- month: month of count
+
+- president: political party of president at the time
+
+- close: the closing values of S&P stock index
+
+- unemployment: unemployment percentage of respective year/month.
 
 ## Problem 2
 
@@ -146,6 +157,21 @@ tidy_wheels =
   janitor::clean_names()
 ```
 
+
+The dataset tidy_wheels consists of 1188 observations and 15 variables. Key variables include:
+
+- dumpster: which dumpster the trash was collected from
+
+- wheel: which wheel the trash was collected from
+
+- year: year trash was collected
+
+- month: month trash was collected
+
+- weight_tons: weight of total trash in tons
+
+The total weight of trash collected by Professor Trash Wheel was `r sum (professor_trash_wheel$weight_tons)` tons. The total number of cigarette butts collected by Gwynnda in June of 2022 was `r sum(filter(gwynnda, month == "June", year == "2022")$cigarette_butts)` cigarette butts.
+
 ## Problem 3
 
 Import, clean, and tidy
@@ -162,15 +188,37 @@ zori = read_csv("data/zillow_data/Zip_zori_uc_sfrcondomfr_sm_month_NYC.csv") |>
     mutate(
       date = str_remove(date, "^x"),
       zip_code = as.factor(region_name)) |>
-  select(-region_name, -region_type)
+  select(-region_name, -region_type, -state, -city, -state_name, -county_name, -metro)
   
 
 zip_codes = read_csv("data/zillow_data/Zip Codes.csv") |>
   janitor::clean_names() |>
   mutate(
-    zip_code = as.factor(zip_code)) |>
+    zip_code = as.factor(zip_code),
+    neighborhood = as.factor(neighborhood),
+    ) |>
   select(-file_date)
 
+tidy_zillow =
+  zori |>
+  left_join(zip_codes, by = "zip_code") |>
+  select(date, zip_code, neighborhood, county, zori, state_fips, county_code, county_fips, region_id, size_rank)
 
+skimr::skim(tidy_zillow)
 ```
 
+The 'tidy_zillow' dataset shows the neighborhood, zip code, and ZORI at a given date in NYC. the ZORI is the Zillow Observed Rent Index, which is a measure of the market rate rent across a region.
+
+Some important variables include:
+
+- date: date of observation
+
+- zip code: zip code of area of focus
+
+- neighborhood: neighborhood of area of focus
+
+- county: county of area of focus
+
+- zori: the ZORI of area of focus.
+
+The tidy_zillow dataset consists of 5684 observations and 10 variables. There are a total of 48 unique ZIP codes and 19 unique neighborhoods. 
